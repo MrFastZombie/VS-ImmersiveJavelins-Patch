@@ -7,7 +7,7 @@
         "MrFastZombie"
     ],
     "side": "Server",
-    "description": "Uses Harmony patches to mak Immersive Javelins work on servers. Only needs to run run on the server, but can be used on the client as well.",
+    "description": "Uses Harmony patches to make Immersive Javelins work on servers. Only needs to run on the server, but will cause no issues if loaded on the client.",
     "version": "1.0.0",
     "dependencies": {
         "immersivejavelins": "1.1.0",
