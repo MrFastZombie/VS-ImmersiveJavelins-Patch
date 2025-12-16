@@ -1,0 +1,16 @@
+{
+    "$schema": "https://moddbcdn.vintagestory.at/schema/modinfo.latest.json",
+    "type": "Code",
+    "modid": "vsimmersivejavelinspatch",
+    "name": "VSImmersiveJavelinsPatch",
+    "authors": [
+        "MrFastZombie"
+    ],
+    "side": "Server",
+    "description": "Uses Harmony patches to mak Immersive Javelins work on servers. Only needs to run run on the server, but can be used on the client as well.",
+    "version": "1.0.0",
+    "dependencies": {
+        "immersivejavelins": "1.1.0",
+        "game": "1.21.0"
+    }
+}

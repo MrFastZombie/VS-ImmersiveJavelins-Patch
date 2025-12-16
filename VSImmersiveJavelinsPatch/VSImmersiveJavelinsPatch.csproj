@@ -1,0 +1,64 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <OutputPath>bin\$(Configuration)\Mods\mod</OutputPath>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="VintagestoryAPI">
+      <HintPath>$(VINTAGE_STORY)/VintagestoryAPI.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+        <Reference Include="VSSurvivalMod">
+            <HintPath>$(VINTAGE_STORY_DEV)\Mods\VSSurvivalMod.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+        <Reference Include="VSEssentials">
+            <HintPath>$(VINTAGE_STORY_DEV)\Mods\VSEssentials.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+  </ItemGroup>
+  <ItemGroup>
+        <Reference Include="0Harmony">
+            <HintPath>$(VINTAGE_STORY_DEV)\Lib\0Harmony.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+  </ItemGroup>
+  <ItemGroup>
+        <Reference Include="immersivejavelins">
+            <HintPath>C:\Users\Skylar\Documents\01_Personal_Docs\Git\VSImmersiveJavelinsPatch\references\ImmersiveJavelins.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+  </ItemGroup>
+
+<ItemGroup>
+  <Content Include="modinfo.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Content>
+</ItemGroup>
+
+<ItemGroup>
+  <Content Include="modicon.png" Condition="Exists('modicon.png')">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Content>
+</ItemGroup>
+<ItemGroup>
+  <Reference Include="Newtonsoft.Json">
+      <HintPath>$(VINTAGE_STORY_DEV)\Lib\Newtonsoft.Json.dll</HintPath>
+      <Private>false</Private>
+  </Reference>
+  <Reference Include="protobuf-net">
+      <HintPath>$(VINTAGE_STORY_DEV)\Lib\protobuf-net.dll</HintPath>
+      <Private>false</Private>
+  </Reference>
+</ItemGroup>
+
+</Project>

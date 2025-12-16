@@ -1,0 +1,111 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "-c",
+                "Debug",
+                "${workspaceFolder}/VSImmersiveJavelinsPatch/VSImmersiveJavelinsPatch.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "package",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "run",
+                "--project",
+                "${workspaceFolder}/CakeBuild/CakeBuild.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "build (Cake)",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "-c",
+                "Debug",
+                "${workspaceFolder}/CakeBuild/CakeBuild.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "Enable Mods",
+            "command": "powershell",
+            "type": "process",
+            "args": [
+                "Get-ChildItem",
+                "*.zip.disabled",
+                "|",
+                "ren",
+                "-NewName",
+                "{ $_.Name -replace '.zip.disabled', '.zip' }",
+            ],
+            "options": {
+                "cwd": "${env:APPDATA}\\VintagestoryData\\Mods"
+            }
+        },
+        {
+            "label": "Disable Mods",
+            "command": "powershell",
+            "type": "process",
+            "args": [
+                "Get-ChildItem",
+                "*.zip",
+                "|",
+                "ren",
+                "-NewName",
+                "{ $_.Name -replace '.zip', '.zip.disabled' }",
+            ],
+            "options": {
+                "cwd": "${env:APPDATA}\\VintagestoryData\\Mods"
+            }
+        },
+        {
+            "label": "Block Authserv",
+            "command": "powershell",
+            "type": "process",
+            "args": [
+                "Start-Process",
+                "powershell",
+                "-verb",
+                "runas",
+                "-ArgumentList",
+                "\"netsh",
+                "advfirewall",
+                "firewall",
+                "add",
+                "rule",
+                "name=BlockVSAuthServ",
+                "dir=out",
+                "action=block",
+                "remoteip=35.162.150.170\""
+            ]
+        },
+        {
+            "label": "Unblock Authserv",
+            "command": "powershell",
+            "type": "process",
+            "args": [
+                "Start-Process",
+                "powershell",
+                "-verb",
+                "runas",
+                "-ArgumentList",
+                "\"netsh",
+                "advfirewall",
+                "firewall",
+                "delete",
+                "rule",
+                "name=BlockVSAuthServ\""
+            ]
+        }
+    ]
+}
