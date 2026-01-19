@@ -16,10 +16,25 @@ public class VSImmersiveJavelinsPatchModSystem : ModSystem
     public override bool ShouldLoad(EnumAppSide side) { //Not sure if I should be using IJModSystem yet.
         return side == EnumAppSide.Server;
     }
+
+    public override double ExecuteOrder() {
+        return double.MaxValue;
+    }
     public override void StartServerSide(ICoreServerAPI api)
     {
         base.StartServerSide(api);
         ServerAPI = api;
+
+        //This loop looks for the feather and bone items, and makes sure they have the offhand storage flag.
+        foreach (Item item in api.World.Items) {
+            if(item == null) { continue; }
+            if (item.Code == null) { continue; }
+            if (item.Code.ToString() == "game:feather" || item.Code.ToString() == "game:bone") {
+                if(item.StorageFlags.HasFlag(EnumItemStorageFlags.Offhand) == false) {
+                    item.StorageFlags |= EnumItemStorageFlags.Offhand;
+                }
+            }
+        }
 
         harmony = new Harmony(Mod.Info.ModID);
         harmony.PatchAll();
