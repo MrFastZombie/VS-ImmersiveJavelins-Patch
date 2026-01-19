@@ -6,9 +6,9 @@
     "authors": [
         "MrFastZombie"
     ],
-    "side": "Server",
-    "description": "Uses Harmony patches to make Immersive Javelins work on servers. Only needs to run on the server, but will cause no issues if loaded on the client.",
-    "version": "1.0.0",
+    "side": "Universal",
+    "description": "Uses Harmony patches to make Immersive Javelins work on servers. Also patches compatibility with Wildcraft Trees.",
+    "version": "1.1.0",
     "dependencies": {
         "immersivejavelins": "1.1.0",
         "game": "1.21.0"
