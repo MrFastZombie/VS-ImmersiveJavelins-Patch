@@ -7,8 +7,8 @@
         "MrFastZombie"
     ],
     "side": "Universal",
-    "description": "Uses Harmony patches to make Immersive Javelins work on servers. Also patches compatibility with Wildcraft Trees.",
-    "version": "1.1.0",
+    "description": "Uses Harmony patches to make Immersive Javelins work on servers. Also ensures bones and feathers have the offhand storage flag.",
+    "version": "1.1.1",
     "dependencies": {
         "immersivejavelins": "1.1.0",
         "game": "1.21.0"
