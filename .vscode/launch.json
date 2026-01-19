@@ -65,5 +65,13 @@
             "stopAtEntry": false,
             "console": "internalConsole"
         }
+    ],
+    "compounds": [
+        {
+            "name": "Server and Client",
+            "configurations": ["Launch Server", "Launch Client (Debug)"],
+            "preLaunchTask": "build",
+            "stopAll": true
+        }
     ]
 }
