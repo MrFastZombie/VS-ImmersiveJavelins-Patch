@@ -6,9 +6,9 @@
     "authors": [
         "MrFastZombie"
     ],
-    "side": "Universal",
+    "side": "Server",
     "description": "Uses Harmony patches to make Immersive Javelins work on servers. Also ensures bones and feathers have the offhand storage flag.",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "dependencies": {
         "immersivejavelins": "1.1.0",
         "game": "1.21.0"
