@@ -25,6 +25,9 @@ public class VSImmersiveJavelinsPatchModSystem : ModSystem
         base.StartServerSide(api);
         ServerAPI = api;
 
+        harmony = new Harmony(Mod.Info.ModID);
+        harmony.PatchAll();
+
         //This loop looks for the feather and bone items, and makes sure they have the offhand storage flag.
         foreach (Item item in api.World.Items) {
             if(item == null) { continue; }
@@ -35,9 +38,6 @@ public class VSImmersiveJavelinsPatchModSystem : ModSystem
                 }
             }
         }
-
-        harmony = new Harmony(Mod.Info.ModID);
-        harmony.PatchAll();
     }
 
     public override void Dispose() {
