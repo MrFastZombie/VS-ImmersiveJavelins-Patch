@@ -1,0 +1,20 @@
+[
+   {
+		"file": "immersivejavelins:shapes/javelin",
+		"op": "replace", 
+		"path": "/textures",
+		"value": {
+            "string": "game:item/resource/string",
+		    "feather2": "vsimmersivejavelinspatch:item/tool/feather2",
+		    "handle": "game:item/tool/handle"
+        },
+		"dependsOn": [ { "modid": "immersivejavelins" } ]
+	},
+    {
+		"file": "immersivejavelins:itemtypes/javelinfletching",
+		"op": "replace", 
+		"path": "/texturesByType/javelinfletching/feather2",
+		"value": { "base": "vsimmersivejavelinspatch:item/tool/feather2" },
+		"dependsOn": [ { "modid": "immersivejavelins" } ]
+	} 
+]
