@@ -30,6 +30,7 @@ public class VSImmersiveJavelinsPatchModSystem : ModSystem
     public override double ExecuteOrder() {
         return double.MaxValue;
     }
+
     public override void StartServerSide(ICoreServerAPI api)
     {
         base.StartServerSide(api);
@@ -56,10 +57,26 @@ public class VSImmersiveJavelinsPatchModSystem : ModSystem
         ClientAPI.Event.RegisterGameTickListener(new Action<float>(this.OnClientTick), 50, 0);
     }
 
-    public override void Start(ICoreAPI api) {
+     public override void Start(ICoreAPI api) {
         base.Start(api);
+        Patch();
+    }
+
+    public override void Dispose() {
+        harmony?.UnpatchAll(Mod.Info.ModID);
+        base.Dispose();
+    }
+
+    private void Patch() {
         harmony = new Harmony(Mod.Info.ModID);
-        harmony.UnpatchAll("immersivejavelins");
+        if(Harmony.HasAnyPatches("immersivejavelins")) {
+            harmony.UnpatchAll("immersivejavelins");
+        } else {
+            ServerAPI?.Logger.Warning("VS Immersive Javelins Patch WARNING: Could not find Immersive Javelins Harmony patches. This could cause issues!");
+            ClientAPI?.Logger.Warning("VS Immersive Javelins Patch WARNING: Could not find Immersive Javelins Harmony patches. This could cause issues!");
+        }
+
+        if(Harmony.HasAnyPatches(Mod.Info.ModID)) return; //Avoid duplicate patches.
 
         var og = typeof(ItemSpear).GetMethod("OnHeldInteractStop");
         var prefix = typeof(EntityPlayer_LightHsv_Patched).GetMethod("OnHeldInteractStop_Prefix");
@@ -76,11 +93,6 @@ public class VSImmersiveJavelinsPatchModSystem : ModSystem
 
 		harmony.Patch(og3, prefix: new HarmonyMethod(prefix3));
         harmony.PatchAll();
-    }
-
-    public override void Dispose() {
-        harmony?.UnpatchAll(Mod.Info.ModID);
-        base.Dispose();
     }
 
     #region Disabler Patches
