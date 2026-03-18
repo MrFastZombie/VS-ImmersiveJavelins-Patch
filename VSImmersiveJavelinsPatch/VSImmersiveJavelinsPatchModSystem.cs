@@ -14,7 +14,6 @@ namespace VSImmersiveJavelinsPatch;
 
 public class VSImmersiveJavelinsPatchModSystem : ModSystem
 {
-    //Much of this code is from Arahvin's Immersive Javelins, released with a CC0 license. It is included here so it may be recompiled for newer VS versions and be improved upon. Thank you Arahvin!
     public static ICoreServerAPI? ServerAPI { get; set; }
     public static ICoreClientAPI? ClientAPI { get; set; }
 
@@ -119,6 +118,7 @@ public class VSImmersiveJavelinsPatchModSystem : ModSystem
     }
     #endregion
 
+    //Much of this code below is from Arahvin's Immersive Javelins, released with a CC0 license. It is included here so it may be recompiled for newer VS versions and be improved upon. Thank you Arahvin!
     #region OnGameTick
     private void OnGameTick(float dt) { //MFZ: This would appear to just handle the crafting mechanics.
         bool flag = ServerAPI == null;
@@ -671,8 +671,8 @@ public class VSImmersiveJavelinsPatchModSystem : ModSystem
 			if (byEntity is EntityPlayer) co.RefillSlotIfEmpty(slot, byEntity, (itemstack) => itemstack.Collectible is ItemSpear);
 
             var pitch = (byEntity as EntityPlayer)?.talkUtil.pitchModifier;
-            if(pitch == null) pitch = 0.5f; //Fall back to 0.5 if null.
-            float randVal = (VSImmersiveJavelinsPatchModSystem.ServerAPI != null) ? (float)VSImmersiveJavelinsPatchModSystem.ServerAPI.World.Rand.NextDouble() : 0.5f; //Fall back to 0.5 if the random number function cannot be used.
+            if(pitch == null) pitch = 0.5f; //MFZ: Fall back to 0.5 if null.
+            float randVal = (VSImmersiveJavelinsPatchModSystem.ServerAPI != null) ? (float)VSImmersiveJavelinsPatchModSystem.ServerAPI.World.Rand.NextDouble() : 0.5f; //MFZ: Fall back to 0.5 if the random number function cannot be used.
             float pitchVal = (float)(pitch * 0.9f + randVal * 0.2f);
             if (byPlayer != null && VSImmersiveJavelinsPatchModSystem.ClientAPI != null) byPlayer.Entity.World.PlaySoundAt(new AssetLocation("sounds/player/strike"), byPlayer.Entity, byPlayer, pitchVal, 16, 0.35f); //TODO: Make sure all sounds are still working!
 			return false;
