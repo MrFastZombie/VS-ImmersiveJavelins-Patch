@@ -539,8 +539,8 @@ public class VSImmersiveJavelinsPatchModSystem : ModSystem
 			}
 		}
 
-		private void UpdateCirceMesh(float progress) { //MFZ: I'll be honest, I don't know what this is doing.
-            if(ClientAPI == null) return; //Skip this function on the server.
+		private void UpdateCirceMesh(float progress) { //MFZ: I'll be honest, I don't know what this is doing but I'm pretty sure it's client side rendering stuff.
+            if(ClientAPI == null) return; //MFZ: Skip this function on the server.
 			int num = 1 + (int)Math.Ceiling((double)(16f * progress));
 			MeshData meshData = new MeshData(num * 2, num * 6, false, false, true, false);
 			for (int i = 0; i < num; i++) {
