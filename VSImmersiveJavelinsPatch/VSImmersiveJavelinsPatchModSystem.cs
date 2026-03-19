@@ -9,6 +9,7 @@ using Vintagestory.API.Client;
 using Vintagestory.API.Config;
 using System.Text;
 using Vintagestory.API.MathTools;
+using Newtonsoft.Json.Linq;
 
 namespace VSImmersiveJavelinsPatch;
 
@@ -16,7 +17,7 @@ public class VSImmersiveJavelinsPatchModSystem : ModSystem
 {
     public static ICoreServerAPI? ServerAPI { get; set; }
     public static ICoreClientAPI? ClientAPI { get; set; }
-
+    public static ImmersiveJavelinsPatchConfig? config;
     private bool isAnimating = false;
     private static bool alreadySentMessageThisAction = false;
     private readonly Dictionary<string, float> craftingStartTimes = new Dictionary<string, float>();
@@ -49,6 +50,26 @@ public class VSImmersiveJavelinsPatchModSystem : ModSystem
         }
     }
 
+    public override void AssetsFinalize(ICoreAPI api) {
+        base.AssetsFinalize(api);
+        if (api.Side != EnumAppSide.Server) {
+            return;
+        }
+
+        //Go through objects to find the javelins and apply their stat values from the config.
+        foreach (CollectibleObject item in api.World.Collectibles) {
+            if(item == null || item.Code == null) continue;
+            if(item.Code.ToString() == "immersivejavelins:javelin-bone" && config != null) {
+                item?.Attributes?.Token?["damage"] = JToken.FromObject(config.JavelinDamage);
+                item?.Attributes?.Token?["breakChanceOnImpact"] = JToken.FromObject(config.JavelinBreakChance);
+            }
+            if(item?.Code.ToString() == "immersivejavelins:crudejavelin-bone" && config != null) {
+                item?.Attributes?.Token?["damage"] = JToken.FromObject(config.CrudeJavelinDamage);
+                item?.Attributes?.Token?["breakChanceOnImpact"] = JToken.FromObject(config.CrudeJavelinBreakChance);
+            }
+        }
+    }
+
     public override void StartClientSide(ICoreClientAPI api) {
         base.StartClientSide(api);
         ClientAPI = api;
@@ -58,6 +79,7 @@ public class VSImmersiveJavelinsPatchModSystem : ModSystem
 
      public override void Start(ICoreAPI api) {
         base.Start(api);
+        LoadConfig(api);
         Patch();
     }
 
@@ -92,6 +114,19 @@ public class VSImmersiveJavelinsPatchModSystem : ModSystem
 
 		harmony.Patch(og3, prefix: new HarmonyMethod(prefix3));
         harmony.PatchAll();
+    }
+
+    private void LoadConfig(ICoreAPI api) {
+        try {
+            config = api.LoadModConfig<ImmersiveJavelinsPatchConfig>("ImmersiveJavelinsPatchConfig.json");
+            if(config == null) config = new ImmersiveJavelinsPatchConfig();
+            api.StoreModConfig<ImmersiveJavelinsPatchConfig>(config, "ImmersiveJavelinsPatchConfig.json");
+        }
+        catch (Exception e) {
+            Mod.Logger.Error("Config could not be loaded!");
+            Mod.Logger.Error(e);
+            config = new ImmersiveJavelinsPatchConfig();
+        }
     }
 
     #region Disabler Patches
@@ -583,7 +618,7 @@ public class VSImmersiveJavelinsPatchModSystem : ModSystem
 
             if (inSlot.Itemstack.Collectible.Attributes != null) {
                 damage = inSlot.Itemstack.Collectible.Attributes["damage"].AsFloat(0);
-                breakChanceOnImpact = inSlot.Itemstack.Collectible.Attributes["breakChanceOnImpact"].AsFloat(0.5f);
+                breakChanceOnImpact = (float)Math.Clamp(inSlot.Itemstack.Collectible.Attributes["breakChanceOnImpact"].AsFloat(0.5f), 0, 1); //MFZ: Clamping this to reflect the valid range.
             }
 
             dsc.AppendLine(damage + Lang.Get("piercing-damage-thrown"));
@@ -620,6 +655,7 @@ public class VSImmersiveJavelinsPatchModSystem : ModSystem
 			if (secondsUsed < 0.35f) return false;
 
 			float damage = slot.Itemstack.Collectible.Attributes?["damage"].AsFloat(1.5f) ?? 1.5f;
+            float breakchance = slot.Itemstack.Collectible.Attributes?["breakChanceOnImpact"].AsFloat(0.2f) ?? 0.2f; //MFZ: Added this as the previous method of getting the break chance would sometimes result in referencing a null item.
 			VSImmersiveJavelinsPatchModSystem.ClientAPI?.World.AddCameraShake(0.17f);
             
 
@@ -641,7 +677,8 @@ public class VSImmersiveJavelinsPatchModSystem : ModSystem
                 enpr.ProjectileStack = stack;
 
                 // Set break chance directly on projectile for impact handling
-			    enpr.DropOnImpactChance = 1 - slot.Itemstack?.Collectible?.Attributes?["breakChanceOnImpact"].AsFloat() ?? 0.2f;
+			    enpr.DropOnImpactChance = (float)Math.Clamp(1 - breakchance, 0, 1); //MFZ: Now that it is configurable, clamping is used to ensure we don't go out of bounds.
+                //enpr.DropOnImpactChance = 1 - slot.Itemstack?.Collectible?.Attributes?["breakChanceOnImpact"].AsFloat() ?? 0.2f;
 			    enpr.DamageStackOnImpact = false;
                 enpr.Collectible = true; //MFZ: For some reason this needs to be set now in 1.22.
             }
