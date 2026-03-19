@@ -711,7 +711,7 @@ public class VSImmersiveJavelinsPatchModSystem : ModSystem
             if(pitch == null) pitch = 0.5f; //MFZ: Fall back to 0.5 if null.
             float randVal = (VSImmersiveJavelinsPatchModSystem.ServerAPI != null) ? (float)VSImmersiveJavelinsPatchModSystem.ServerAPI.World.Rand.NextDouble() : 0.5f; //MFZ: Fall back to 0.5 if the random number function cannot be used.
             float pitchVal = (float)(pitch * 0.9f + randVal * 0.2f);
-            if (byPlayer != null && VSImmersiveJavelinsPatchModSystem.ClientAPI != null) byPlayer.Entity.World.PlaySoundAt(new AssetLocation("sounds/player/strike"), byPlayer.Entity, byPlayer, pitchVal, 16, 0.35f); //TODO: Make sure all sounds are still working!
+            if (byPlayer != null && VSImmersiveJavelinsPatchModSystem.ClientAPI != null) byPlayer.Entity.World.PlaySoundAt(new AssetLocation("sounds/player/strike"), byPlayer.Entity, byPlayer, pitchVal, 16, 0.35f);
 			return false;
 		}
 	}
