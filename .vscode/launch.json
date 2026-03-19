@@ -8,7 +8,7 @@
             "name": "Launch Client (Debug)",
             "type": "coreclr",
             "request": "launch",
-            "program": "C:/Users/Skylar/AppData/Roaming/VSLGameVersions/1.22.0-rc.2/Vintagestory.exe",
+            "program": "${env:VINTAGE_STORY_DEV_JAVELINS}/Vintagestory.exe",
             "linux": {
                 "program": "${env:VINTAGE_STORY_DEV_JAVELINS}/Vintagestory"
             },
@@ -34,7 +34,7 @@
             "name": "Launch Server",
             "type": "coreclr",
             "request": "launch",
-            "program": "C:/Users/Skylar/AppData/Roaming/VSLGameVersions/1.22.0-rc.2/VintagestoryServer.exe",
+            "program": "${env:VINTAGE_STORY_DEV_JAVELINS}/VintagestoryServer.exe",
             "linux": {
                 "program": "${env:VINTAGE_STORY_DEV_JAVELINS}/VintagestoryServer"
             },
