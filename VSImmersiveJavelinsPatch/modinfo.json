@@ -11,6 +11,6 @@
     "version": "2.0.0",
     "dependencies": {
         "immersivejavelins": "1.1.0",
-        "game": "1.22.0-pre.2"
+        "game": "1.22.0-rc.3"
     }
 }
